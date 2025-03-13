@@ -1,0 +1,7 @@
+0 PokeBall
+1 Squirtle
+2 Wolf
+3 Rat
+4 Pikachu
+5 Charzar
+6 Plant
