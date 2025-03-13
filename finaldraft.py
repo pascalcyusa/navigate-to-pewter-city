@@ -218,7 +218,7 @@ def main():
                 elif distance <= 15.24:
                     stop_robot() 
                     detected_object, _ = object_recognition()
-                    if detected_object == Fifth_object:
+                    if detected_object == fifth_object:
                         print(f"Fifth object {class_names[fifth_object][2:]} detected!")
                         turn_90_degrees(fifth_object_movement)
                         time.sleep(4)
