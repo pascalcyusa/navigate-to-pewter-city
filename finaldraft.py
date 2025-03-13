@@ -40,17 +40,17 @@ picam2.start()
 time.sleep(1)
 
 # Movement direction variables (update these before testing)
-first_object = 4  # Example: 0 for PokeBall
-first_object_movement = 'right'  # 'left' or 'right'
+first_object = 2  # Example: 0 for PokeBall
+first_object_movement = 'left'  # 'left' or 'right'
 second_object = 5  # Example: 1 for Squirtle
-second_object_movement = 'left'  # 'left' or 'right'
+second_object_movement = 'right'  # 'left' or 'right'
 third_object = 0
-third_object_movement = 'left'  # 'left' or 'right'
-fourth_object = 1
-fourth_object_movement = 'right'  # 'left' or 'right'
-fifth_object = 2
-fifth_object_movement = 'left'  # 'left' or 'right'
-sixth_object = 6
+third_object_movement = 'right'  # 'left' or 'right'
+fourth_object = 4
+fourth_object_movement = 'left'  # 'left' or 'right'
+fifth_object = 6
+fifth_object_movement = 'right'  # 'left' or 'right'
+sixth_object = 1
 sixth_object_movement = 'left'  # 'left' or 'right'
 seventh_object = 3
 seventh_object_movement = 'right'  # 'left' or 'right'
@@ -186,7 +186,7 @@ def main():
                         print(f"Second object {class_names[second_object][2:]} detected!")
                         turn_90_degrees(second_object_movement)
                         time.sleep(4)
-                        step = 3  # Move to step 3
+                        step = 4  # Move to step 3
             if step == 4:
                 distance = measure_distance()
                 if distance > 15.24:
@@ -267,4 +267,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
