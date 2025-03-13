@@ -6,6 +6,8 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
 from irobot_create_msgs.action import DriveDistance, RotateAngle
+from irobot_create_msgs.msg import AudioNoteVector, AudioNote  
+from builtin_interfaces.msg import Duration
 from keras.models import load_model
 from PIL import Image, ImageOps
 import cv2
@@ -25,6 +27,7 @@ rclpy.init()
 node = rclpy.create_node('drive_robot')
 client_drive = ActionClient(node, DriveDistance, '/drive_distance')
 client_rotate = ActionClient(node, RotateAngle, '/rotate_angle')
+audio_publisher = node.create_publisher(AudioNoteVector, '/cmd_audio', 10)
 
 # Load object recognition model
 model = load_model("all_keras_model.h5", compile=False)
@@ -120,6 +123,28 @@ def object_recognition():
 
     print(f"Class: {class_name[2:]}, Confidence: {np.round(confidence_score * 100)}%")
     return index, confidence_score
+
+# Battle Cry function
+def play_battle_cry():
+    audio_msg = AudioNoteVector()
+    audio_msg.append = False
+    
+    # Create the notes
+    notes = [
+        (392, 177500000),  # G4
+        (523, 355000000),  # C5
+        (587, 177500000),  # D5
+        (784, 533000000)   # G5
+    ]
+    
+    audio_msg.notes = []
+    for frequency, duration_ns in notes:
+        note = AudioNote()  # Changed from AudioNoteVector.Note()
+        note.frequency = frequency
+        note.max_runtime = Duration(sec=0, nanosec=duration_ns)
+        audio_msg.notes.append(note)
+    
+    audio_publisher.publish(audio_msg)
 
 # Main program loop
 def main():
@@ -222,9 +247,14 @@ def main():
                         turn_90_degrees(seventh_object_movement)
                         time.sleep(4)
                         step = 9  # Move to step 5
-                        break  # End the loop after second object is detected
-            #if step == 9:
-
+                        # break  # End the loop after second object is detected
+                       # Battle cry
+            if step == 9:
+                print("Playing battle cry!")
+                play_battle_cry()
+                time.sleep(2)  # Wait for the sound to finish
+                step = 10  # Move to next step if needed
+                break
             time.sleep(0.1)
 
 
